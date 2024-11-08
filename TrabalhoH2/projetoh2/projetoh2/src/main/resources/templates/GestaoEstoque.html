@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Estoque - Hortifruti</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: #4CAF50;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .crud-section {
+            width: 48%;
+        }
+
+        .crud-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .crud-container h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .crud-container input, .crud-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .crud-container button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            width: 48%;
+            margin-top: 10px;
+        }
+
+        .crud-container button:hover {
+            background-color: #45a049;
+        }
+
+        .crud-container .button-delete {
+            background-color: #f44336;
+        }
+
+        .crud-container .button-delete:hover {
+            background-color: #e53935;
+        }
+
+        #produtos-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #produtos-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+        }
+
+        .product-info span {
+            margin-right: 15px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            color: #aaa;
+            text-align: center;
+            width: 100%;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo para o contêiner de Atualizar Produto */
+        #atualizar-produto {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #atualizar-produto input,
+        #atualizar-produto select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #atualizar-produto button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            width: 48%;
+            margin-top: 10px;
+        }
+
+        #atualizar-produto button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Gestão de Estoque - Hortifruti</h1>
+</header>
+
+<main>
+
+    <section class="crud-section">
+        <div class="crud-container">
+            <h2>Produtos no Estoque</h2>
+            <ul id="produtos-list">
+
+            </ul>
+        </div>
+    </section>
+
+
+    <section class="crud-section">
+        <div class="crud-container">
+            <h2>Adicionar Produto</h2>
+            <form id="form-adicionar">
+                <input type="text" id="nome" placeholder="Nome do Produto" required>
+                <input type="number" id="quantidade" placeholder="Quantidade" required>
+                <input type="number" id="valor" placeholder="Valor" step="0.01" required>
+                <select id="tipo" required>
+                    <option value="">Selecione o Tipo</option>
+                    <option value="LEGUMES">Legumes</option>
+                    <option value="VERDURAS">Verduras</option>
+                    <option value="VEGETAIS">Vegetais</option>
+                    <option value="FRUTAS">Frutas</option>
+                </select>
+                <button type="submit">Adicionar Produto</button>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="crud-section" id="atualizar-produto" style="display:none;">
+        <div class="crud-container">
+            <h2>Atualizar Produto</h2>
+            <form id="form-atualizar">
+                <input type="text" id="nome-atualizar" placeholder="Nome do Produto" required>
+                <input type="number" id="quantidade-atualizar" placeholder="Quantidade" required>
+                <input type="number" id="valor-atualizar" placeholder="Valor" step="0.01" required>
+                <select id="tipo-atualizar" required>
+                    <option value="">Selecione o Tipo</option>
+                    <option value="LEGUMES">Legumes</option>
+                    <option value="VERDURAS">Verduras</option>
+                    <option value="VEGETAIS">Vegetais</option>
+                    <option value="FRUTAS">Frutas</option>
+                </select>
+                <button type="submit">Atualizar Produto</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer>
+<div style="background-color: #4CAF50; color: white; padding: 20px; text-align: center; border-radius: 10px; width: 100%; max-width: 1200px;">
+    <p style="font-size: 18px; font-weight: 600;">&copy; 2024 Projeto de Gestão de Estoque Hortifruti</p>
+    <p style="font-size: 14px;">Desenvolvido por: <span style="font-weight: 600;">OTÁVIO ALEXANDRE, JUAN VICTOR, JOÃO VICTOR CASTRO, KAIRO VITOR ,LUCAS PERREIRA</span></p>
+</div>
+</footer>
+
+<script>
+
+    const produtos = [
+        { id: 1, nome: 'Tomate', quantidade: 10, valor: 5.00, tipo: 'LEGUMES' },
+        { id: 2, nome: 'Alface', quantidade: 20, valor: 3.50, tipo: 'VERDURAS' }
+    ];
+
+
+    function listarProdutos() {
+        const lista = document.getElementById('produtos-list');
+        lista.innerHTML = '';
+
+        produtos.forEach((produto) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div class="product-info">
+                    <span><strong>ID:</strong> ${produto.id}</span>
+                    <span><strong>Nome:</strong> ${produto.nome}</span>
+                    <span><strong>Quantidade:</strong> ${produto.quantidade}</span>
+                    <span><strong>Valor:</strong> R$ ${produto.valor.toFixed(2)}</span>
+                    <span><strong>Tipo:</strong> ${produto.tipo}</span>
+                </div>
+                <div class="actions">
+                    <button class="button-update" onclick="atualizarProduto(${produto.id})">Atualizar</button>
+                    <button class="button-delete" onclick="confirmDelete(${produto.id})">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+    }
+
+
+    function confirmDelete(id) {
+        const confirmation = confirm("Tem certeza que deseja excluir este produto?");
+        if (confirmation) {
+            const index = produtos.findIndex(produto => produto.id === id);
+            if (index !== -1) {
+                produtos.splice(index, 1);
+                listarProdutos();
+            }
+        }
+    }
+
+
+    function atualizarProduto(id) {
+        const produto = produtos.find(p => p.id === id);
+        if (produto) {
+
+            document.getElementById('nome-atualizar').value = produto.nome;
+            document.getElementById('quantidade-atualizar').value = produto.quantidade;
+            document.getElementById('valor-atualizar').value = produto.valor;
+            document.getElementById('tipo-atualizar').value = produto.tipo;
+
+
+            document.getElementById('atualizar-produto').style.display = 'block';
+            document.getElementById('form-atualizar').onsubmit = function(event) {
+                event.preventDefault();
+                produto.nome = document.getElementById('nome-atualizar').value;
+                produto.quantidade = document.getElementById('quantidade-atualizar').value;
+                produto.valor = parseFloat(document.getElementById('valor-atualizar').value);
+                produto.tipo = document.getElementById('tipo-atualizar').value;
+
+
+                listarProdutos();
+
+
+                document.getElementById('atualizar-produto').style.display = 'none';
+            };
+        }
+    }
+
+
+    document.getElementById('form-adicionar').onsubmit = function(event) {
+        event.preventDefault();
+        const id = produtos.length + 1;
+        const nome = document.getElementById('nome').value;
+        const quantidade = parseInt(document.getElementById('quantidade').value);
+        const valor = parseFloat(document.getElementById('valor').value);
+        const tipo = document.getElementById('tipo').value;
+
+        const novoProduto = { id, nome, quantidade, valor, tipo };
+        produtos.push(novoProduto);
+        listarProdutos();
+
+
+        document.getElementById('form-adicionar').reset();
+    };
+
+
+    listarProdutos();
+</script>
+</body>
+</html>
